@@ -99,10 +99,10 @@ const GameView: React.FC = () => {
             </button>
           </div>
           
-          <div className="border-t border-border-DEFAULT pt-4 text-text-secondary text-sm">
-            <p className="mb-2"><span className="text-accent-blue">{`>`}</span> Welcome to SilkRoad. You have 30 days to maximize profits.</p>
-            <p className="mb-2"><span className="text-accent-blue">{`>`}</span> Current debt: $5,500 at 10% weekly interest.</p>
-            <p><span className="text-accent-blue">{`>`}</span> Buy low, sell high. Avoid authorities.</p>
+          <div className="border-t border-gray-700 pt-4 text-gray-400 text-sm">
+            <p className="mb-2"><span className="text-blue-400">{">"}</span> Welcome to SilkRoad. You have 30 days to maximize profits.</p>
+            <p className="mb-2"><span className="text-blue-400">{">"}</span> Current debt: $5,500 at 10% weekly interest.</p>
+            <p><span className="text-blue-400">{">"}</span> Buy low, sell high. Avoid authorities.</p>
           </div>
         </div>
       </div>

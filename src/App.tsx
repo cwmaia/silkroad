@@ -4,7 +4,7 @@ import './App.css'
 
 function App() {
   return (
-    <div className="min-h-screen bg-background-dark text-text-primary font-mono">
+    <div className="min-h-screen bg-black text-gray-100 font-mono">
       <GameView />
     </div>
   )

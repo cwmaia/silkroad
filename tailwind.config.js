@@ -63,6 +63,7 @@ export default {
         'neon-blue': '0 0 5px #00bcd4, 0 0 10px rgba(0, 188, 212, 0.5)',
         'neon-green': '0 0 5px #00ff9d, 0 0 10px rgba(0, 255, 157, 0.5)',
         'neon-amber': '0 0 5px #ffbe76, 0 0 10px rgba(255, 190, 118, 0.5)',
+        'neon-red': '0 0 5px #ff5252, 0 0 10px rgba(255, 82, 82, 0.5)',
         'panel': '0 4px 12px rgba(0, 0, 0, 0.5)'
       },
       animation: {
