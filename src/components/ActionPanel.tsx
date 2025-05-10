@@ -3,30 +3,33 @@ import { useGameStore } from '../state/gameStore';
 
 const ActionPanel: React.FC = () => {
   const { nextDay, depositCash, withdrawCash, payDebt, player } = useGameStore();
-  const [bankAmount, setBankAmount] = useState(0);
+  const [bankAmount, setBankAmount] = useState<string>('');
   
   const handleNextDay = () => {
     nextDay();
   };
   
   const handleDeposit = () => {
-    if (bankAmount > 0 && bankAmount <= player.cash) {
-      depositCash(bankAmount);
-      setBankAmount(0);
+    const amount = parseInt(bankAmount) || 0;
+    if (amount > 0 && amount <= player.cash) {
+      depositCash(amount);
+      setBankAmount('');
     }
   };
   
   const handleWithdraw = () => {
-    if (bankAmount > 0 && bankAmount <= player.bank) {
-      withdrawCash(bankAmount);
-      setBankAmount(0);
+    const amount = parseInt(bankAmount) || 0;
+    if (amount > 0 && amount <= player.bank) {
+      withdrawCash(amount);
+      setBankAmount('');
     }
   };
   
   const handlePayDebt = () => {
-    if (bankAmount > 0 && bankAmount <= player.cash) {
-      payDebt(bankAmount);
-      setBankAmount(0);
+    const amount = parseInt(bankAmount) || 0;
+    if (amount > 0 && amount <= player.cash) {
+      payDebt(amount);
+      setBankAmount('');
     }
   };
   
@@ -34,8 +37,7 @@ const ActionPanel: React.FC = () => {
     const value = e.target.value;
     // Allow only numeric values
     if (/^\d*$/.test(value)) {
-      const num = parseInt(value) || 0;
-      setBankAmount(num);
+      setBankAmount(value);
     }
   };
   
@@ -52,13 +54,13 @@ const ActionPanel: React.FC = () => {
               value={bankAmount}
               onChange={handleAmountChange}
               className="w-40 px-2 py-1 bg-gray-700 rounded text-center"
-              placeholder="Amount"
+              placeholder="$$$"
             />
             
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
               <button
                 onClick={handleDeposit}
-                disabled={bankAmount <= 0 || bankAmount > player.cash}
+                disabled={!bankAmount || parseInt(bankAmount) <= 0 || parseInt(bankAmount) > player.cash}
                 className="btn bg-green-600 hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Deposit
@@ -66,7 +68,7 @@ const ActionPanel: React.FC = () => {
               
               <button
                 onClick={handleWithdraw}
-                disabled={bankAmount <= 0 || bankAmount > player.bank}
+                disabled={!bankAmount || parseInt(bankAmount) <= 0 || parseInt(bankAmount) > player.bank}
                 className="btn bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Withdraw
@@ -74,7 +76,7 @@ const ActionPanel: React.FC = () => {
               
               <button
                 onClick={handlePayDebt}
-                disabled={bankAmount <= 0 || bankAmount > player.cash || player.debt === 0}
+                disabled={!bankAmount || parseInt(bankAmount) <= 0 || parseInt(bankAmount) > player.cash || player.debt === 0}
                 className="btn bg-red-600 hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Pay Debt

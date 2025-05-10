@@ -14,19 +14,19 @@ const TrendIndicator: React.FC<{ trend: 'up' | 'down' | 'stable' }> = ({ trend }
 const DrugMarket: React.FC = () => {
   const { drugMarket, buyDrug, sellDrug, player } = useGameStore();
   const [selectedDrug, setSelectedDrug] = useState<Drug | null>(null);
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState<string>('');
   
   const handleBuy = () => {
-    if (selectedDrug) {
-      buyDrug(selectedDrug, quantity);
-      setQuantity(1);
+    if (selectedDrug && quantity) {
+      buyDrug(selectedDrug, parseInt(quantity) || 1);
+      setQuantity('');
     }
   };
   
   const handleSell = () => {
-    if (selectedDrug) {
-      sellDrug(selectedDrug, quantity);
-      setQuantity(1);
+    if (selectedDrug && quantity) {
+      sellDrug(selectedDrug, parseInt(quantity) || 1);
+      setQuantity('');
     }
   };
   
@@ -38,8 +38,7 @@ const DrugMarket: React.FC = () => {
     const value = e.target.value;
     // Allow only numeric values
     if (/^\d*$/.test(value)) {
-      const num = parseInt(value) || 1;
-      setQuantity(num);
+      setQuantity(value);
     }
   };
   
@@ -106,25 +105,25 @@ const DrugMarket: React.FC = () => {
               value={quantity}
               onChange={handleQuantityChange}
               className="w-20 px-2 py-1 bg-gray-700 rounded text-center"
-              placeholder="Qty"
+              placeholder="###"
             />
           </div>
           
           <div className="flex gap-2">
             <button
               onClick={handleBuy}
-              disabled={player.cash < drugMarket[selectedDrug].price * quantity}
+              disabled={!quantity || player.cash < drugMarket[selectedDrug].price * (parseInt(quantity) || 0)}
               className="btn bg-green-600 hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Buy (${(drugMarket[selectedDrug].price * quantity).toLocaleString()})
+              Buy (${quantity ? (drugMarket[selectedDrug].price * (parseInt(quantity) || 0)).toLocaleString() : '0'})
             </button>
             
             <button
               onClick={handleSell}
-              disabled={player.inventory[selectedDrug] < quantity}
+              disabled={!quantity || player.inventory[selectedDrug] < (parseInt(quantity) || 0)}
               className="btn bg-red-600 hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Sell (${(drugMarket[selectedDrug].price * quantity).toLocaleString()})
+              Sell (${quantity ? (drugMarket[selectedDrug].price * (parseInt(quantity) || 0)).toLocaleString() : '0'})
             </button>
           </div>
         </div>
