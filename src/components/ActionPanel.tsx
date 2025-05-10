@@ -70,100 +70,121 @@ const ActionPanel: React.FC = () => {
   };
   
   return (
-    <div className="card">
-      <h2 className="text-xl font-bold mb-4">Actions</h2>
+    <div className="panel">
+      <div className="panel-header">
+        <h2 className="panel-title">FINANCIAL OPERATIONS</h2>
+      </div>
       
       <div className="flex flex-col space-y-4">
-        <div>
-          <h3 className="text-lg mb-3">Bank Operations</h3>
-          
+        <div>          
           {/* Tab Navigation */}
-          <div className="flex mb-3 border-b border-gray-700">
+          <div className="flex mb-4">
             <button
               onClick={() => setActiveTab('deposit')}
-              className={`px-3 py-1 font-medium ${activeTab === 'deposit' ? 'text-green-400 border-b-2 border-green-400' : 'text-gray-400'}`}
+              className={`px-4 py-2 text-sm uppercase font-medium border-b-2 transition-colors ${
+                activeTab === 'deposit' 
+                  ? 'border-accent-green text-accent-green' 
+                  : 'border-transparent text-text-secondary hover:text-text-primary'
+              }`}
             >
               Deposit
             </button>
             <button
               onClick={() => setActiveTab('withdraw')}
-              className={`px-3 py-1 font-medium ${activeTab === 'withdraw' ? 'text-blue-400 border-b-2 border-blue-400' : 'text-gray-400'}`}
+              className={`px-4 py-2 text-sm uppercase font-medium border-b-2 transition-colors ${
+                activeTab === 'withdraw' 
+                  ? 'border-accent-blue text-accent-blue' 
+                  : 'border-transparent text-text-secondary hover:text-text-primary'
+              }`}
             >
               Withdraw
             </button>
             <button
               onClick={() => setActiveTab('debt')}
-              className={`px-3 py-1 font-medium ${activeTab === 'debt' ? 'text-red-400 border-b-2 border-red-400' : 'text-gray-400'}`}
+              className={`px-4 py-2 text-sm uppercase font-medium border-b-2 transition-colors ${
+                activeTab === 'debt' 
+                  ? 'border-accent-red text-accent-red' 
+                  : 'border-transparent text-text-secondary hover:text-text-primary'
+              }`}
               disabled={player.debt === 0}
             >
               Pay Debt
             </button>
           </div>
           
-          {/* Account Info */}
-          <div className="grid grid-cols-3 gap-2 mb-3 text-sm">
-            <div>
-              <p className="text-gray-400">Cash</p>
-              <p className="text-green-400">${player.cash.toLocaleString()}</p>
+          {/* Operation UI based on active tab */}
+          <div className="p-3 border border-border-DEFAULT rounded-md bg-background-dark">
+            <div className="mb-3">
+              {activeTab === 'deposit' && (
+                <div className="flex justify-between text-sm">
+                  <div className="text-text-secondary">Cash available:</div>
+                  <div className="text-accent-green">${player.cash.toLocaleString()}</div>
+                </div>
+              )}
+              
+              {activeTab === 'withdraw' && (
+                <div className="flex justify-between text-sm">
+                  <div className="text-text-secondary">Bank balance:</div>
+                  <div className="text-accent-blue">${player.bank.toLocaleString()}</div>
+                </div>
+              )}
+              
+              {activeTab === 'debt' && (
+                <div className="flex justify-between text-sm">
+                  <div className="text-text-secondary">Current debt:</div>
+                  <div className="text-accent-red">${player.debt.toLocaleString()}</div>
+                </div>
+              )}
             </div>
-            <div>
-              <p className="text-gray-400">Bank</p>
-              <p className="text-blue-400">${player.bank.toLocaleString()}</p>
-            </div>
-            <div>
-              <p className="text-gray-400">Debt</p>
-              <p className="text-red-400">${player.debt.toLocaleString()}</p>
-            </div>
-          </div>
-          
-          {/* Action UI */}
-          <div className="flex items-center gap-2 mb-2">
-            <input
-              type="text"
-              value={bankAmount}
-              onChange={handleAmountChange}
-              className="w-40 px-2 py-1 bg-gray-700 rounded text-center"
-              placeholder="$$$"
-            />
             
-            <button 
-              className={`btn flex-grow ${
-                activeTab === 'deposit' ? 'bg-green-600 hover:bg-green-700' :
-                activeTab === 'withdraw' ? 'bg-blue-600 hover:bg-blue-700' :
-                'bg-red-600 hover:bg-red-700'
-              } disabled:opacity-50 disabled:cursor-not-allowed`}
-              onClick={
-                activeTab === 'deposit' ? handleDeposit :
-                activeTab === 'withdraw' ? handleWithdraw :
-                handlePayDebt
-              }
-              disabled={isButtonDisabled()}
-            >
-              {activeTab === 'deposit' ? 'Deposit' :
-               activeTab === 'withdraw' ? 'Withdraw' :
-               'Pay Debt'}
-            </button>
+            <div className="flex items-center gap-3">
+              <input
+                type="text"
+                value={bankAmount}
+                onChange={handleAmountChange}
+                className="w-full px-3 py-2 bg-background-light border border-border-DEFAULT focus:border-accent-blue rounded text-center font-mono"
+                placeholder="$$$"
+              />
+              
+              <button 
+                className={`
+                  btn whitespace-nowrap
+                  ${activeTab === 'deposit' ? 'btn-green' : activeTab === 'withdraw' ? 'btn' : 'btn-red'}
+                `}
+                onClick={
+                  activeTab === 'deposit' ? handleDeposit :
+                  activeTab === 'withdraw' ? handleWithdraw :
+                  handlePayDebt
+                }
+                disabled={isButtonDisabled()}
+              >
+                {activeTab === 'deposit' ? 'DEPOSIT' :
+                 activeTab === 'withdraw' ? 'WITHDRAW' :
+                 'PAY DEBT'}
+              </button>
+            </div>
+            
+            <div className="mt-2 text-xs text-text-secondary">
+              {activeTab === 'deposit' && 'Transfer cash to your bank account for safekeeping.'}
+              {activeTab === 'withdraw' && 'Withdraw money from your bank account.'}
+              {activeTab === 'debt' && 'Pay off your debt to reduce interest payments.'}
+            </div>
           </div>
           
-          <div className="flex justify-between text-xs text-gray-400 mb-2">
-            <span>Available: ${getMaxAmount().toLocaleString()}</span>
-            {bankAmount && <span>Amount: ${parseInt(bankAmount).toLocaleString() || '0'}</span>}
+          <div className="text-xs text-accent-amber mt-3">
+            Interest accrues at 10% weekly on unpaid debt.
           </div>
-          
-          <p className="text-sm text-gray-400">
-            The bank pays no interest, but your debt grows by 10% each week!
-          </p>
         </div>
         
-        <div className="border-t border-gray-700 pt-4">
+        <div className="border-t border-border-DEFAULT pt-4">
           <button
             onClick={handleNextDay}
-            className="btn bg-purple-600 hover:bg-purple-700 w-full py-3"
+            className="btn w-full py-3 hover:shadow-neon-blue"
           >
-            Skip to Next Day ({player.daysLeft} left)
+            NEXT DAY <span className="ml-2 text-text-secondary">({player.daysLeft} remaining)</span>
           </button>
-          <p className="text-sm text-gray-400 mt-2">
-            Moving to the next day will update all drug prices.
+          <p className="text-xs text-text-secondary mt-2 text-center">
+            Moving to the next day will update all drug prices and market conditions.
           </p>
         </div>
       </div>

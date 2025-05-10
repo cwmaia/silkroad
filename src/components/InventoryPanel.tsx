@@ -23,44 +23,80 @@ const InventoryPanel: React.FC = () => {
     return total;
   };
   
+  const calculateDrugValue = (drug: Drug): number => {
+    if (!drugMarket || !drugMarket[drug]) return 0;
+    return drugMarket[drug].price * player.inventory[drug];
+  };
+  
   const totalValue = calculateTotalValue();
   const totalItems = Object.values(player.inventory).reduce((a, b) => a + b, 0);
   
+  // Sort drugs by value (highest first)
+  const sortedDrugs = Object.keys(player.inventory)
+    .filter(drug => player.inventory[drug as Drug] > 0)
+    .sort((a, b) => {
+      const drugA = a as Drug;
+      const drugB = b as Drug;
+      return calculateDrugValue(drugB) - calculateDrugValue(drugA);
+    }) as Drug[];
+  
   return (
-    <div className="card">
-      <h2 className="text-xl font-bold mb-2">Inventory</h2>
+    <div className="panel">
+      <div className="panel-header">
+        <h2 className="panel-title">INVENTORY</h2>
+        <div className="text-xs text-accent-blue">
+          {totalItems} items · ${totalValue.toLocaleString()} total
+        </div>
+      </div>
       
       {totalItems > 0 ? (
-        <>
-          <div className="mb-4">
-            <p className="text-gray-400 mb-2">Your stash:</p>
-            <ul className="space-y-1">
-              {Object.entries(player.inventory).map(([drug, qty]) => {
-                if (qty <= 0) return null;
-                return (
-                  <li key={drug} className="flex justify-between">
-                    <span>{drug}</span>
-                    <span className="font-medium">{qty} units</span>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
+        <div className="space-y-2">
+          {sortedDrugs.map(drug => {
+            const qty = player.inventory[drug];
+            const value = calculateDrugValue(drug);
+            
+            return (
+              <div 
+                key={drug} 
+                className="border border-border-DEFAULT rounded p-2 flex justify-between items-center hover:border-border-highlight transition-all"
+              >
+                <div className="flex items-center">
+                  <div className="w-2 h-2 rounded-full bg-accent-blue mr-2"></div>
+                  <span className="font-medium">{drug}</span>
+                </div>
+                
+                <div className="flex items-center space-x-4">
+                  <div className="text-right">
+                    <div className="text-xs text-text-secondary">Quantity</div>
+                    <div className="font-mono">{qty}</div>
+                  </div>
+                  
+                  <div className="text-right min-w-24">
+                    <div className="text-xs text-text-secondary">Value</div>
+                    <div className="font-mono text-accent-green">${value.toLocaleString()}</div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
           
-          <div className="border-t border-gray-700 pt-3 mt-3">
-            <div className="flex justify-between text-sm">
-              <span className="text-gray-400">Total items:</span>
-              <span>{totalItems} units</span>
+          <div className="border-t border-border-DEFAULT mt-4 pt-3">
+            <div className="flex justify-between">
+              <span className="text-text-secondary">Total items:</span>
+              <span className="font-mono">{totalItems}</span>
             </div>
             
-            <div className="flex justify-between text-sm mt-1">
-              <span className="text-gray-400">Estimated value:</span>
-              <span className="text-green-400">${totalValue.toLocaleString()}</span>
+            <div className="flex justify-between font-medium mt-1">
+              <span className="text-text-secondary">Total value:</span>
+              <span className="text-accent-green font-mono">${totalValue.toLocaleString()}</span>
             </div>
           </div>
-        </>
+        </div>
       ) : (
-        <p className="text-gray-400">You don't have any drugs yet. Visit the market to buy some.</p>
+        <div className="py-8 text-center">
+          <div className="text-text-secondary mb-2">Your stash is empty</div>
+          <div className="text-sm">Visit the market to acquire inventory.</div>
+        </div>
       )}
     </div>
   );

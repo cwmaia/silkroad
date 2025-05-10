@@ -1,20 +1,138 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
+  html {
+    @apply bg-background-dark;
+  }
+  
   body {
-    @apply bg-gray-900 text-white;
+    @apply bg-background-dark text-text-primary font-mono m-0 min-h-screen;
+    background-image: radial-gradient(circle at 50% 0%, rgba(18, 18, 18, 0.15), transparent 60%);
+  }
+
+  ::-webkit-scrollbar {
+    @apply w-1.5;
+  }
+  
+  ::-webkit-scrollbar-track {
+    @apply bg-background-dark;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    @apply bg-border-DEFAULT rounded-full;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-border-highlight;
   }
 }
 
 @layer components {
+  .panel {
+    @apply bg-background-panel border border-border-DEFAULT rounded p-4 shadow-panel;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3), inset 0 0 1px rgba(255, 255, 255, 0.1);
+  }
+  
+  .panel-header {
+    @apply flex justify-between items-center pb-2 mb-3 border-b border-border-DEFAULT;
+  }
+  
+  .panel-title {
+    @apply text-lg font-medium tracking-wide uppercase text-text-primary;
+  }
+  
   .btn {
-    @apply px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-md transition-colors;
+    @apply px-4 py-2 font-mono uppercase tracking-wide text-sm bg-transparent border border-accent-blue text-accent-blue rounded transition-all;
+  }
+  
+  .btn:hover {
+    @apply shadow-neon-blue bg-accent-blue bg-opacity-10;
+  }
+  
+  .btn-green {
+    @apply border-accent-green text-accent-green;
+  }
+  
+  .btn-green:hover {
+    @apply shadow-neon-green bg-accent-green bg-opacity-10;
+  }
+  
+  .btn-amber {
+    @apply border-accent-amber text-accent-amber;
+  }
+  
+  .btn-amber:hover {
+    @apply shadow-neon-amber bg-accent-amber bg-opacity-10;
+  }
+  
+  .btn-red {
+    @apply border-accent-red text-accent-red;
+  }
+  
+  .btn-red:hover {
+    @apply shadow-neon-red bg-accent-red bg-opacity-10;
+  }
+  
+  .terminal-text {
+    @apply font-mono text-text-primary;
+  }
+  
+  .data-value {
+    @apply font-mono text-accent-blue;
   }
   
   .card {
-    @apply bg-gray-800 rounded-md p-4 shadow-md;
+    @apply bg-background-panel border border-border-DEFAULT rounded-md p-3 transition-all;
+  }
+  
+  .card:hover {
+    @apply border-border-highlight;
+  }
+  
+  .grid-layout {
+    @apply grid grid-cols-1 lg:grid-cols-4 gap-4;
+  }
+
+  .data-card {
+    @apply flex flex-col bg-background-light border border-border-DEFAULT p-2 rounded;
+  }
+  
+  .data-card-header {
+    @apply text-xs uppercase text-text-secondary mb-1;
+  }
+  
+  .data-card-value {
+    @apply text-lg font-medium;
+  }
+  
+  .trend-up {
+    @apply text-accent-green;
+  }
+  
+  .trend-down {
+    @apply text-accent-red;
+  }
+  
+  .trend-stable {
+    @apply text-accent-amber;
+  }
+}
+
+/* Animation for flicker effect */
+.terminal-flicker {
+  animation: flicker 5s infinite alternate;
+}
+
+@keyframes flicker {
+  0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
+    opacity: 0.99;
+  }
+  20%, 21.999%, 63%, 63.999%, 65%, 69.999% {
+    opacity: 0.8;
   }
 }
 
