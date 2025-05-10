@@ -37,7 +37,7 @@ const ActionPanel: React.FC = () => {
       <div className="flex flex-col space-y-4">
         <div>
           <h3 className="text-lg mb-2">Bank Operations</h3>
-          <div className="flex flex-col md:flex-row items-center gap-2">
+          <div className="flex flex-col md:flex-row items-center gap-2 mb-2">
             <input
               type="number"
               min="0"
@@ -74,6 +74,10 @@ const ActionPanel: React.FC = () => {
               </button>
             </div>
           </div>
+          
+          <p className="text-sm text-gray-400">
+            The bank pays no interest, but your debt grows by 10% each week!
+          </p>
         </div>
         
         <div className="border-t border-gray-700 pt-4">
@@ -81,8 +85,11 @@ const ActionPanel: React.FC = () => {
             onClick={handleNextDay}
             className="btn bg-purple-600 hover:bg-purple-700 w-full py-3"
           >
-            Next Day ({player.daysLeft} left)
+            Skip to Next Day ({player.daysLeft} left)
           </button>
+          <p className="text-sm text-gray-400 mt-2">
+            Moving to the next day will update all drug prices.
+          </p>
         </div>
       </div>
     </div>

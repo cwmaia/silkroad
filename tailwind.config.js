@@ -36,6 +36,27 @@ export default {
           700: '#7e22ce',
         }
       },
+      spacing: {
+        '1': '0.25rem',
+        '2': '0.5rem',
+        '3': '0.75rem',
+        '4': '1rem',
+        '6': '1.5rem',
+        '8': '2rem',
+      },
+      borderRadius: {
+        'md': '0.375rem',
+      },
+      opacity: {
+        '50': '0.5',
+      },
+      cursor: {
+        'pointer': 'pointer',
+        'not-allowed': 'not-allowed',
+      },
+      transitionProperty: {
+        'colors': 'color, background-color, border-color',
+      },
     },
   },
   darkMode: 'class',

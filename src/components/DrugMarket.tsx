@@ -31,12 +31,23 @@ const DrugMarket: React.FC = () => {
   };
   
   const maxAffordable = (drug: Drug): number => {
-    return Math.floor(player.cash / drugMarket[drug].price);
+    return Math.floor(player.cash / drugMarket[drug]?.price || 1);
   };
+  
+  // Check if drugMarket is initialized
+  if (!drugMarket || Object.keys(drugMarket).length === 0) {
+    return (
+      <div className="card">
+        <h2 className="text-xl font-bold mb-2">Drug Market</h2>
+        <p>Loading market data...</p>
+      </div>
+    );
+  }
   
   return (
     <div className="card">
       <h2 className="text-xl font-bold mb-2">Drug Market</h2>
+      <p className="text-sm text-gray-400 mb-3">Cash: ${player.cash.toLocaleString()}</p>
       
       <div className="mb-4">
         <table className="w-full text-left">
@@ -77,7 +88,7 @@ const DrugMarket: React.FC = () => {
         </table>
       </div>
       
-      {selectedDrug && (
+      {selectedDrug && drugMarket[selectedDrug] && (
         <div className="flex flex-col md:flex-row gap-4 mt-4">
           <div className="flex items-center gap-2">
             <label className="text-gray-400">Quantity:</label>

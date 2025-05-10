@@ -4,6 +4,7 @@ import PlayerStats from '../components/PlayerStats';
 import DrugMarket from '../components/DrugMarket';
 import CitySelector from '../components/CitySelector';
 import ActionPanel from '../components/ActionPanel';
+import InventoryPanel from '../components/InventoryPanel';
 
 const GameView: React.FC = () => {
   const { startGame, gameOver, player } = useGameStore();
@@ -85,6 +86,9 @@ const GameView: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-1">
           <PlayerStats />
+          <div className="mt-6">
+            <InventoryPanel />
+          </div>
           <div className="mt-6">
             <ActionPanel />
           </div>
