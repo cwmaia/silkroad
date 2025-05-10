@@ -34,6 +34,15 @@ const DrugMarket: React.FC = () => {
     return Math.floor(player.cash / drugMarket[drug]?.price || 1);
   };
   
+  const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    // Allow only numeric values
+    if (/^\d*$/.test(value)) {
+      const num = parseInt(value) || 1;
+      setQuantity(num);
+    }
+  };
+  
   // Check if drugMarket is initialized
   if (!drugMarket || Object.keys(drugMarket).length === 0) {
     return (
@@ -93,12 +102,11 @@ const DrugMarket: React.FC = () => {
           <div className="flex items-center gap-2">
             <label className="text-gray-400">Quantity:</label>
             <input
-              type="number"
-              min="1"
-              max={Math.max(maxAffordable(selectedDrug), player.inventory[selectedDrug])}
+              type="text"
               value={quantity}
-              onChange={(e) => setQuantity(parseInt(e.target.value) || 1)}
-              className="w-20 px-2 py-1 bg-gray-700 rounded"
+              onChange={handleQuantityChange}
+              className="w-20 px-2 py-1 bg-gray-700 rounded text-center"
+              placeholder="Qty"
             />
           </div>
           

@@ -30,6 +30,15 @@ const ActionPanel: React.FC = () => {
     }
   };
   
+  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    // Allow only numeric values
+    if (/^\d*$/.test(value)) {
+      const num = parseInt(value) || 0;
+      setBankAmount(num);
+    }
+  };
+  
   return (
     <div className="card">
       <h2 className="text-xl font-bold mb-4">Actions</h2>
@@ -39,12 +48,10 @@ const ActionPanel: React.FC = () => {
           <h3 className="text-lg mb-2">Bank Operations</h3>
           <div className="flex flex-col md:flex-row items-center gap-2 mb-2">
             <input
-              type="number"
-              min="0"
-              max={Math.max(player.cash, player.bank)}
+              type="text"
               value={bankAmount}
-              onChange={(e) => setBankAmount(parseInt(e.target.value) || 0)}
-              className="w-40 px-2 py-1 bg-gray-700 rounded"
+              onChange={handleAmountChange}
+              className="w-40 px-2 py-1 bg-gray-700 rounded text-center"
               placeholder="Amount"
             />
             
